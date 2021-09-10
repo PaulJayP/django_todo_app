@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-info">
+          <strong>{{message}}</strong>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    {% if form.errors %}
+        <div class="alert alert-danger alert-dismissible col-12 mx-1" role="alert">
+            <div id="form_errors">
+                {% for key, value in form.errors.items %}
+                    <span class="fieldWrapper">
+                        {{ key }}:{{ value }}
+                    </span>
+                {% endfor %}
+            </div>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %}
+    <h2>Update Task Form</h2>
+    <form method="POST" action="/edit_task/{{ task_id }}" id="taskForm" data-cities-url="{% url 'load_cities' %}"
+        data-weather-url="{% url 'load_weather' %}" novalidate class="{% if loc_weather %} {{loc_weather.temp_code}} {% endif %}"
+    >
+        {% csrf_token %}
+        <table>
+          {{ forms.as_table }}
+        </table>
+        <hr/>
+        <b>
+          Temperature : {% if loc_weather %} {{loc_weather.temp }} {% else %} No temp record available {% endif %}
+        </b>
+
+        <hr/>
+        <button type="submit">Save</button>
+    </form>
+
+
+  <script>
+    $("#id_country").change(function () {
+      var url = $("#taskForm").attr("data-cities-url");
+      var countryId = $(this).val();
+
+      $.ajax({
+        url: url,
+        data: {
+          'country': countryId
+        },
+        success: function (data) {
+          $("#id_city").html(data);
+        }
+      });
+
+    });
+
+    $("#id_city").change(function () {
+      var url = $("#taskForm").attr("data-weather-url");
+      var cityId = $(this).val();
+
+      $.ajax({
+        url: url,
+        data: {
+          'city': cityId
+        },
+        success: function (data) {
+
+          $("#taskForm").css(data['key'], data['colour']);
+        }
+      });
+
+    });
+  </script>
+{% endblock %}
+
+

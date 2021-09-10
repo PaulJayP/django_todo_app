@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title_block %}- Register account{% endblock %}
+
+{% block content %}
+
+{% if messages %}
+  {% for message in messages %}
+	<div class="alert alert-info">
+	  <strong>{{message}}</strong>
+	</div>
+  {% endfor %}
+{% endif %}
+
+{% if form.errors %}
+    <div class="alert alert-danger alert-dismissible col-12 mx-1" role="alert">
+        <div id="form_errors">
+            {% for key, value in form.errors.items %}
+                <span class="fieldWrapper">
+                    {{ key }}:{{ value }}
+                </span>
+            {% endfor %}
+        </div>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{% endif %}
+
+<div class="section-padding">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6 mx-auto">
+
+				<div class="card">
+					<div class="card-header">
+						<h4 class="text-center">
+							<i class="fas fa-user-plus"></i> Register an account
+						</h4>
+					</div>
+					<div class="card-body">
+						<form method="POST" action="{% url 'accounts:signup' %}">
+							{% csrf_token %}
+							<div class="form-group">
+								<label>Name</label>
+								<input type="text" name="first_name" class="form-control" required>
+							</div>
+							<div class="form-group">
+								<label>Email</label>
+								<input type="email" name="email" class="form-control" required>
+							</div>
+							<div class="form-group">
+								<label>Username</label>
+								<input type="text" name="username" class="form-control" required>
+							</div>
+							<div class="form-group">
+								<label>Password</label>
+								<input type="password" name="password1" class="form-control" required>
+							</div>
+							<div class="form-group">
+								<label>Confirm Password</label>
+								<input type="password" name="password2" class="form-control" required>
+							</div>
+
+							<div class="form-group">
+								<input type="submit" name="submit" value="Register" class="btn btn-success btn-block btn-md">
+							</div>
+							<small>Already have an account? <a href="{% url 'login' %}" id="">Login here</a></small>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
