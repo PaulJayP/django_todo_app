@@ -3,7 +3,7 @@
 import json
 from pathlib import Path
 
-from todo_app.settings import STATIC_ROOT, BASE_DIR, CITY_JSON_DATA
+from todo_app.settings import  BASE_DIR, CITY_JSON_DATA
 from django.db import migrations
 
 

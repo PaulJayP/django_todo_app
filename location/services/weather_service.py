@@ -1,4 +1,4 @@
-from location.models import City
+from location.models.city_model import City
 
 
 class WeatherService:

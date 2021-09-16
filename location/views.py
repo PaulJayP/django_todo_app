@@ -3,8 +3,8 @@ import json
 import requests
 from django.http import HttpResponse
 from django.shortcuts import render
-from location.models import City
-from location.weather_service import WeatherService
+from location.models.city_model import City
+from location.services.weather_service import WeatherService
 from todo_app.settings import PRIV
 
 # Create your views here.

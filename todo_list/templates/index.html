@@ -12,65 +12,69 @@
       {% endfor %}
     {% endif %}
 
+  <div class="section-padding">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-10 mx-auto">
+                  <div class="card {% if loc_weather %} {{loc_weather.temp_code}} {% endif %}" id="taskCard">
+                      <div class="card-header">
+                        <h4><h1><i>Tasks</i></h1></h4>
+                      </div>
 
-    <center class="row">
-      <h1><i>Tasks</i></h1>
-      <hr />
-    </center>
 
-    <div class="row">
+                      <div class="row">
+                          <div class="col-md-12">
 
-      <div class="col-md-8">
+                              {% for i in list %}
 
-        {% for i in list %}
+                              <div class="card {% if i.city %} {{i.city.temp_code}} {% endif %}">
+                                  <div class="card-body">
+                                      <h5 class="card-title">Title: {{i.title}} | User: {{i.user.username}}</h5>
+                                      <p class="card-text">
+                                      <hr/>
+                                      Created At: [{{i.created_at}}] - Updated At: [{{i.updated_at}}]
+                                      <hr/>
+                                      Content: {{i.content}}
+                                      <hr/>
 
-        <div class="card {% if i.city %} {{i.city.temp_code}} {% endif %}">
-          <div class="card-body">
-            <h5 class="card-title">Title: {{i.title}} | User: {{i.user.username}}</h5>
-            <p class="card-text">
-              <hr/>
-              Created At: [{{i.created_at}}] - Updated At: [{{i.updated_at}}]
-              <hr/>
-              Content: {{i.content}}
-              <hr/>
+                                      {% if i.city %}
+                                          Country code: [{{i.country.name}}] - City name: [{{i.city.name}}]
+                                          <hr/>
+                                      {% endif %}
 
-              {% if i.city %}
-              Country code: [{{i.country.name}}] - City name: [{{i.city.name}}]
-               <hr/>
-              {% endif %}
+                                      {% if i.city.temp_code %}
+                                          Temp Code: {{i.city.temp_code}} | Temperature {{i.city.temperature}}
 
-              {% if i.city.temp_code %}
-                  Temp Code: {{i.city.temp_code}} | Temperature {{i.city.temperature}}
-<!--                  Show Weather, blue, orange, red, temp etc-->
-              <hr/>
-              {% endif %}
+                                          <hr/>
+                                      {% endif %}
 
-              {% if i.completed_at %}
-              Completed: [{{i.completed_at}}]
-              {% endif %}
-            </p>
+                                      {% if i.completed_at %}
+                                          Completed: [{{i.completed_at}}]
+                                      {% endif %}
+                                      </p>
+                                  </div>
+
+                                  <div class="card-footer">
+                                      <form action="/edit_form/{{i.id}}" method="POST" style="margin-right: 0px; ">
+                                          {% csrf_token %}
+                                          <button type="submit" value="edit_item" class="btn btn-primary" style="float: right;"><span class="glyphicon glyphicon-trash"></span>Edit</button>
+                                       </form>
+
+                                      <form action="/delete/{{i.id}}" method="POST" style="margin-right: 60px; ">
+                                          {% csrf_token %}
+                                          <button type="submit" value="delete_item" class="btn btn-primary" style="float: right;"><span class="glyphicon glyphicon-trash"></span>Remove</button>
+                                      </form>
+                                  </div>
+                              </div>
+
+                              <br>
+                          {% endfor%}
+                      </div>
+                  </div>
+              </div>
           </div>
-
-          <div class="card-footer">
-
-            <form action="/edit_form/{{i.id}}" method="POST" style="margin-right: 0px; ">
-              {% csrf_token %}
-              <button type="submit" value="edit_item" class="btn btn-primary" style="float: right;"><span class="glyphicon glyphicon-trash"></span>Edit</button>
-             </form>
-
-            <form action="/delete/{{i.id}}" method="POST" style="margin-right: 60px; ">
-              {% csrf_token %}
-              <button type="submit" value="delete_item" class="btn btn-primary" style="float: right;"><span class="glyphicon glyphicon-trash"></span>Remove</button>
-            </form>
-
-          </div>
-        </div>
-
-        <br>
-        {% endfor%}
-
       </div>
-      <div class="col-md-1"> </div>
+<!--        <div class="col-md-1"> </div>-->
     </div>
   </div>
 {% endblock %}

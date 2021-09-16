@@ -26,22 +26,35 @@
             </button>
         </div>
     {% endif %}
-    <h2>Update Task Form</h2>
-    <form method="POST" action="/edit_task/{{ task_id }}" id="taskForm" data-cities-url="{% url 'load_cities' %}"
-        data-weather-url="{% url 'load_weather' %}" novalidate class="{% if loc_weather %} {{loc_weather.temp_code}} {% endif %}"
-    >
-        {% csrf_token %}
-        <table>
-          {{ forms.as_table }}
-        </table>
-        <hr/>
-        <b>
-          Temperature : {% if loc_weather %} {{loc_weather.temp }} {% else %} No temp record available {% endif %}
-        </b>
 
-        <hr/>
-        <button type="submit">Save</button>
-    </form>
+  <div class="section-padding">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-6 mx-auto">
+                  <div class="card {% if loc_weather %} {{loc_weather.temp_code}} {% endif %}" id="taskCard">
+                      <div class="card-header">
+                        <h4>Update Task Form</h4>
+                      </div>
+                      <div class="card-body">
+                          <form method="POST" action="/edit_task/{{ task_id }}" id="taskForm" data-cities-url="{% url 'load_cities' %}"
+                          data-weather-url="{% url 'load_weather' %}" novalidate >
+                              {% csrf_token %}
+                              <table>
+                                  {{ forms.as_table }}
+                              </table>
+                              <hr/>
+                              <b>
+                                  Temperature : {% if loc_weather %} {{loc_weather.temp }} {% else %} No temp record available {% endif %}
+                              </b>
+                              <hr/>
+                              <button type="submit">Save</button>
+                          </form>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
 
 
   <script>
@@ -72,7 +85,7 @@
         },
         success: function (data) {
 
-          $("#taskForm").css(data['key'], data['colour']);
+          $("#taskCard").css(data['key'], data['colour']);
         }
       });
 

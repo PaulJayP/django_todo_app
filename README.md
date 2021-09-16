@@ -26,3 +26,8 @@ Url entrypoint: http://locahost:8080/index
 - Remove
     - Removes the Task.
 
+#### Testing
+
+Run `docker exec -it todo_app_web_1 python manage.py test --verbosity=2`
+
+TODO Finish tests, add smaller set of city/country data for test purposes.

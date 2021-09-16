@@ -1,8 +1,10 @@
 from django.db import models
 from django.utils.timezone import now
 from django.contrib.auth.models import User
+from location.models.city_model import City
+from location.models.country_model import Country
+
 # Create your models here.
-from location.models import City, Country
 
 
 class TodoItem(models.Model):

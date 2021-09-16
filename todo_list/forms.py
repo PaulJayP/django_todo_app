@@ -1,9 +1,7 @@
-from datetime import datetime
-
-from crispy_forms.layout import Field
 from django import forms
 
-from location.models import City, Country
+from location.models.city_model import City
+from location.models.country_model import Country
 from .models import TodoItem
 
 

@@ -161,4 +161,4 @@ def edit_task(request, task_id):
         return index(request)
 
     messages.error(request, "Task not updated")
-    return edit_form(request)
+    return edit_form(request, task_id=task_id)

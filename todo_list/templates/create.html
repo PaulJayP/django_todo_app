@@ -25,18 +25,30 @@
         </div>
     {% endif %}
 
-  <h2>Create Task Form</h2>
-  <form method="POST" action="/create/" id="taskForm" data-cities-url="{% url 'load_cities' %}"
-        data-weather-url="{% url 'load_weather' %}" novalidate
-  >
+  <div class="section-padding">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-6 mx-auto">
 
-    {% csrf_token %}
-    <table>
-      {{ forms.as_table }}
-    </table>
-    <button type="submit">Save</button>
-
-  </form>
+                  <div class="card {% if loc_weather %} {{loc_weather.temp_code}} {% endif %}" id="taskCard"">
+                      <div class="card-header">
+                          <h4>Create Task Form</h4>
+                      </div>
+                      <div class="card-body">
+                          <form method="POST" action="/create/" id="taskForm" data-cities-url="{% url 'load_cities' %}"
+                                data-weather-url="{% url 'load_weather' %}" novalidate>
+                              {% csrf_token %}
+                                <table>
+                                    {{ forms.as_table }}
+                                </table>
+                                <button type="submit">Save</button>
+                          </form>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
 
   <script>
     $("#id_country").change(function () {
@@ -66,7 +78,7 @@
         },
         success: function (data) {
           console.log(data)
-          $("#taskForm").css(data['key'], data['colour']);
+          $("#taskCard").css(data['key'], data['colour']);
         }
       });
 
