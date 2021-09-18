@@ -1,16 +1,13 @@
 from datetime import datetime
 
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.urls import reverse
 from django.utils.timezone import make_aware
 
 from .forms import TodoForm,  TodoFormUpdate
 from .models import TodoItem
-
-# Create your views here.
-
-###############################################
 
 
 def index(request):
@@ -69,7 +66,7 @@ def create_task(request):
         return index(request)
 
     messages.error(request, "Task not created")
-    return create_form(request)
+    return redirect(reverse('create_form'), request)
 
 
 @login_required()
@@ -82,12 +79,15 @@ def delete_task(request, task_id):
     :return: A redirect on success or fail.
     """
 
-    task = TodoItem.objects.get(id=task_id)
+    task = TodoItem.objects.filter(id=task_id).first()
+    if task is None:
+        messages.error(request, 'Task not found')
+        return redirect(index)
 
     # basic auth
     if task.user != request.user:
-        messages.error(request, "Unauthorized to delete this task.")
-        return index(request)
+        messages.error(request, "Unauthorized to delete this task")
+        return redirect(index)
 
     task.delete()
     messages.info(request, "Task removed")
@@ -105,13 +105,17 @@ def edit_form(request, task_id):
     :return: A redirect on success or fail.
     """
 
-    task = TodoItem.objects.get(id=task_id)
+    task = TodoItem.objects.filter(id=task_id).first()
+    if task is None:
+        messages.error(request, 'Task not found')
+        return redirect(index)
+
     form = TodoFormUpdate(instance=task)
 
     # basic auth
     if task.user != request.user:
-        messages.error(request, "Unauthorized to view this page.")
-        return index(request)
+        messages.error(request, "Unauthorized to view this page")
+        return redirect(index)
 
     data = {
         'forms': form,
@@ -139,13 +143,17 @@ def edit_task(request, task_id):
     :return: A redirect on success or fail.
     """
 
-    task = TodoItem.objects.get(id=task_id)
+    task = TodoItem.objects.filter(id=task_id).first()
+    if task is None:
+        messages.error(request, 'Task not found')
+        return redirect('index')
+
     form = TodoForm(request.POST, instance=task)
 
     # basic auth
     if task.user != request.user:
-        messages.error(request, "Unauthorized to edit this task.")
-        return index(request)
+        messages.error(request, "Unauthorized to edit this task")
+        return redirect('index')
 
     form.data = request.POST
 
@@ -159,6 +167,9 @@ def edit_task(request, task_id):
 
         messages.info(request, "Task updated")
         return index(request)
+    # else:
+    #     print(form.errors)
 
     messages.error(request, "Task not updated")
-    return edit_form(request, task_id=task_id)
+    return redirect(
+        reverse('edit_form', kwargs={'task_id': task_id}), request)

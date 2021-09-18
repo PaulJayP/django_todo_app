@@ -4,8 +4,6 @@ from django.contrib.auth.models import User
 from location.models.city_model import City
 from location.models.country_model import Country
 
-# Create your models here.
-
 
 class TodoItem(models.Model):
     title = models.CharField(max_length=100)
