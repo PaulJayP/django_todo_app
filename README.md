@@ -30,4 +30,4 @@ Url entrypoint: http://locahost:8080/index
 
 Run `docker exec -it todo_app_web_1 python manage.py test --verbosity=2`
 
-TODO Finish tests, add smaller set of city/country data for test purposes.
+TODO Tests for Forms, City model and weather service
