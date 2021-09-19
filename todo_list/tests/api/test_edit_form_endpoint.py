@@ -96,7 +96,7 @@ class ViewEditFormTestCase(TodoListViewsMixin):
         )
 
     # Logged in, unauthorised
-    def test_get_edit_form_with_valid_id_unauthorised_fail(self):
+    def test_get_edit_form_with_valid_id_logged_in_unauthorised_fail(self):
 
         todo_item_obj = TodoItem.objects.filter(user=self.users[0]).values().first()
 
@@ -118,7 +118,7 @@ class ViewEditFormTestCase(TodoListViewsMixin):
             status_code=302, target_status_code=200, fetch_redirect_response=True
         )
 
-    def test_get_edit_form_with_invalid_id_unauthorised_fail(self):
+    def test_get_edit_form_with_invalid_id_logged_in_unauthorised_fail(self):
 
         todo_item_obj = TodoItem.objects.filter(user=self.users[0]).values().first()
 

@@ -7,10 +7,6 @@ from location.models.city_model import City
 from location.services.weather_service import WeatherService
 from todo_app.settings import PRIV
 
-# Create your views here.
-
-###############################################
-
 
 def load_cities(request):
     """ Using the country name, get the object from the database
