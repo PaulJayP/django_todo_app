@@ -1,4 +1,5 @@
 import random
+import string
 import uuid
 
 from django.test.testcases import SerializeMixin
@@ -22,8 +23,10 @@ class TestLocationModelsMixin(SerializeMixin, TestCase):
         for x in range(5):
             test_country = Country.objects.create(name="test_country [{0}]".format(str(uuid.uuid4())[:25]))
             test_city = City.objects.create(
-                country=test_country,
                 city_id=str(uuid.uuid4()),
+                name=''.join(random.choice(string.ascii_letters) for i in range(100)),
+                country=test_country,
+                state=''.join(random.choice(string.ascii_letters) for i in range(100)),
                 coord={"lon": 01.111111, "lat": 01.111111},
                 weather={'test_weather': 'not null'},
                 temp_code=random.choice(temp_code),
