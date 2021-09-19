@@ -342,3 +342,8 @@ class CityModelTestCase(TestLocationModelsMixin):
         city_obj.save()
 
         self.assertEqual(city_obj.temperature, rand_temperature_error)
+
+    def test_return_string(self):
+        city_list_obj = self.location_list[0]['city']
+
+        self.assertEqual(str(city_list_obj), city_list_obj.name)

@@ -38,9 +38,9 @@ class WeatherService:
         temp = city_weather_main.get('temp')
 
         temp_code = None
-        if temp > 30:
+        if temp >= 30:
             temp_code = self.weather_colour_code['hot']
-        elif temp > 20:
+        elif temp >= 20:
             temp_code = self.weather_colour_code['warm']
         else:
             temp_code = self.weather_colour_code['cold']
