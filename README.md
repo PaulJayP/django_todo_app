@@ -28,6 +28,14 @@ Url entrypoint: http://locahost:8080/index
 
 #### Testing
 
-Run `docker exec -it todo_app_web_1 python manage.py test --verbosity=2`
+Run coverage:
 
-TODO Tests for Forms, City model and weather service
+`docker exec -it todo_app_web_1 coverage run --omit='*/venv/*' manage.py test`
+
+Get coverage report
+
+`docker exec -it todo_app_web_1 coverage report`
+
+Run tests
+
+ `docker exec -it todo_app_web_1 python manage.py test --verbosity=2`
